@@ -9,6 +9,51 @@ defmodule Hologram.ExJsConsistency.Erlang.MathTest do
 
   @moduletag :consistency
 
+  describe "ceil/1" do
+    test "returns correct value" do
+      number = 2.5
+
+      result = :math.ceil(number)
+      expected = 3.0
+
+      assert result == expected
+    end
+
+    test "returns correct value if passing negative value" do
+      number = -2.5
+
+      result = :math.ceil(number)
+      expected = -2.0
+
+      assert result == expected
+    end
+
+    test "returns correct value if passing zero" do
+      number = 0.0
+
+      result = :math.ceil(number)
+      expected = 0.0
+
+      assert result == expected
+    end
+
+    test "raises ArgumentError if the argument is a string" do
+      number_string = "123"
+
+      assert_error ArgumentError, ~r"errors were found at the given arguments:\n\n  \* 1st argument: not a number", fn ->
+        :math.ceil(number_string)
+      end
+    end
+
+    test "raises ArgumentError if the argument is a list" do
+      list = [1, 2, 3]
+
+      assert_error ArgumentError, ~r"errors were found at the given arguments:\n\n  \* 1st argument: not a number", fn ->
+        :math.ceil(list)
+      end
+    end
+  end
+
   describe "exp/1" do
     test "returns correct value" do
       number = 2.0

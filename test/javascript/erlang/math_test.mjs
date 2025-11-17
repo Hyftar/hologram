@@ -17,6 +17,49 @@ defineGlobalErlangAndElixirModules();
 // Always update both together.
 
 describe("Erlang_Math", () => {
+  describe("ceil/1", () => {
+    const ceil = Erlang_Math["ceil/1"];
+
+    it("returns correct value", () => {
+      const number = Type.float(2.5);
+
+      const result = ceil(number);
+      const expected = Type.float(3);
+
+      assert.deepStrictEqual(result, expected);
+    });
+
+    it("returns correct value if passing negative value", () => {
+      const number = Type.float(-2.5);
+
+      const result = ceil(number);
+      const expected = Type.float(-2);
+
+      assert.deepStrictEqual(result, expected);
+    });
+
+    it("returns correct value if passing zero", () => {
+      const number = Type.float(0);
+
+      const result = ceil(number);
+      const expected = Type.float(0);
+
+      assert.deepStrictEqual(result, expected);
+    });
+
+    it("throws error if passing string", () => {
+      const numberString = Type.string("123");
+
+      assertBoxedError(() => ceil(numberString), "ArgumentError", Interpreter.buildArgumentErrorMsg(1, "not a number"));
+    });
+
+    it("throws error if passing array", () => {
+      const list = Type.list([Type.integer(1), Type.integer(2), Type.integer(3)]);
+
+      assertBoxedError(() => ceil(list), "ArgumentError", Interpreter.buildArgumentErrorMsg(1, "not a number"));
+    });
+  });
+
   it("exp/1", () => {
     const exp = Erlang_Math["exp/1"];
 
